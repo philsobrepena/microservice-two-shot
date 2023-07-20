@@ -9,26 +9,36 @@ from common.json import ModelEncoder
 
 class LocationVODetailEncoder(ModelEncoder):
     model = LocationVO
-    properties = ["name", "import_href"]
+    properties = [
+        "import_href",
+        "closet_name",
+        "section_number",
+        "shelf_number",
+        ]
 
 class HatListEncoder(ModelEncoder):
+    model = Hat
+    properties = [
+        "fabric",
+        "style_name",
+        "color",
+        "picture",
+        "location"
+    ]
+
+
+
+class HatDetailEncoder(ModelEncoder):
     model = Hat
     properties = [
         "fabric",
         "name",
         "color",
         "picture",
-
     ]
-
-class HatDetailEncoder(ModelEncoder):
-    model = Hat
-    properties = [
-        "fabric"
-        "name"
-        "color"
-        "picture"
-    ]
+    encoders = {
+        "location": LocationVODetailEncoder(),
+    }
 
 
 @require_http_methods(["GET", "POST"])
@@ -50,7 +60,7 @@ def api_list_hats(request, location_vo_id=None):
             content["location"] = location
         except LocationVO.DoesNotExist:
             return JsonResponse(
-                {"message": "Invalid conference id"},
+                {"message": "Invalid location"},
                 status=400,
             )
 
@@ -62,10 +72,10 @@ def api_list_hats(request, location_vo_id=None):
         )
 
 def api_show_hats(request, pk):
-
-    hat = Hat.objects.get(id=pk)
-    return JsonResponse(
-        hat,
-        encoder=HatDetailEncoder,
-        safe=False,
+    if request.method == "GET":
+        hat = Hat.objects.get(id=pk)
+        return JsonResponse(
+            hat,
+            encoder=HatDetailEncoder,
+            safe=False,
     )

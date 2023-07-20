@@ -9,17 +9,20 @@ sys.path.append("")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hats_project.settings")
 django.setup()
 
-from hats.api.hats_rest.models import LocationVO
+from hats_rest.models import LocationVO
 # Import models from hats_rest, here.
 # from hats_rest.models import Something
 
+
 def get_locations():
-    response = requests.get("http://http://wardrobe-api:8000/api/locations/")
+    response = requests.get("http://wardrobe-api:8000/api/locations/")
     content = json.loads(response.content)
     for location in content["locations"]:
         LocationVO.objects.update_or_create(
             import_href=location["href"],
-            defaults={"name": location["name"]},
+            defaults={
+                "name": location["name"]
+                },
         )
 
 
@@ -28,6 +31,7 @@ def poll():
         print('Hats poller polling for data')
         try:
             get_locations()
+            pass
         except Exception as e:
             print(e, file=sys.stderr)
         time.sleep(60)
