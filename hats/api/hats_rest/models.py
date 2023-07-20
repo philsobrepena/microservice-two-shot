@@ -9,7 +9,7 @@ class LocationVO(models.Model):
     def __str__(self):
         return self.name
 
-class Hat(models.Models):
+class Hat(models.Model):
     fabric = models.CharField(max_length=200)
     name = models.CharField(max_length=200)
     color = models.CharField(max_length=255)
