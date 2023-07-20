@@ -10,18 +10,6 @@ function NewShoeForm() {
   const [bins, setBins] = useState([]);
   const [hasSignedUp, setHasSignedUp] = useState(false);
 
-  const fetchData = async () => {
-    const url = 'http://localhost:8080/api/shoes/';
-    const response = await fetch(url);
-    if (response.ok) {
-      const data = await response.json();
-      setBins(data.bins);
-    }
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -47,6 +35,7 @@ function NewShoeForm() {
         setBin('');
         setHasSignedUp(true);
     }
+
   }
 
 
