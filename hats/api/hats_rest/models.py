@@ -4,13 +4,25 @@ from django.db import models
 
 class LocationVO(models.Model):
     import_href = models.CharField(max_length=200, unique=True)
-    name = models.CharField(max_length=200)
+    closet_name = models.CharField(max_length=200, null=True)
+    section_number = models.PositiveSmallIntegerField(null=True)
+    shelf_number = models.PositiveSmallIntegerField(null=True)
 
     def __str__(self):
-        return self.name
+        return self.closet_name
 
-class Hat(models.Models):
+class Hat(models.Model):
     fabric = models.CharField(max_length=200)
-    name = models.CharField(max_length=200)
-    color = models.CharField(max_length=255)
-    picture = models.URLField(max_length=200, null=True)
+    style_name = models.CharField(max_length=200)
+    color = models.CharField(max_length=200)
+    picture = models.URLField(max_length=200,null=True)
+
+    location = models.ForeignKey(
+        LocationVO,
+        related_name="hats",
+        on_delete= models.CASCADE,
+        null=True,
+    )
+
+    def __str__(self):
+        return self.style_name
