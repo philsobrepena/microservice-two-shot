@@ -10,6 +10,19 @@ function NewShoeForm() {
   const [bins, setBins] = useState([]);
   const [hasSignedUp, setHasSignedUp] = useState(false);
 
+  const fetchData = async () => {
+    const url = 'http://localhost:8100/api/bins/';
+    const response = await fetch(url);
+    if (response.ok) {
+      const data = await response.json();
+      setBins(data.bins);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -60,10 +73,8 @@ function NewShoeForm() {
   }
 
   // CSS classes for rendering
-  let spinnerClasses = 'd-flex justify-content-center mb-3';
   let dropdownClasses = 'form-select d-none';
   if (bins.length > 0) {
-    spinnerClasses = 'd-flex justify-content-center mb-3 d-none';
     dropdownClasses = 'form-select';
   }
 
@@ -77,9 +88,6 @@ function NewShoeForm() {
   return (
     <div className="my-5 container">
       <div className="row">
-        <div className="col col-sm-auto">
-          <img width="300" className="bg-white rounded shadow d-block mx-auto mb-4" src="/logo.svg"/>
-        </div>
         <div className="col">
           <div className="card shadow">
             <div className="card-body">
@@ -110,17 +118,12 @@ function NewShoeForm() {
                   <p className="mb-3">
                   Please choose a bin
                 </p>
-                {/* <div className={spinnerClasses} id="loading-conference-spinner">
-                  <div className="spinner-grow text-secondary" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
-                </div> */}
                   <div className="mb-3">
                   <select onChange={handleChangeBin} name="bin" id="bin" className={dropdownClasses} required>
                     <option value="">Choose a bin</option>
                     {bins.map(bin => {
                       return (
-                        <option key={bin.href} value={bin.href}>{bin.name}</option>
+                        <option key={bin.id} value={bin.id}>{bin.id}</option>
                       )
                     })}
                   </select>
