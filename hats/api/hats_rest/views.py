@@ -55,11 +55,11 @@ class HatDetailEncoder(ModelEncoder):
 def api_list_hats(request, location_vo_id=None):
     if request.method == "GET":
         if(location_vo_id is not None):
-            hat = Hat.objects.filter(location=location_vo_id)
+            hats = Hat.objects.filter(location=location_vo_id)
         else:
-            hat = Hat.objects.all()
+            hats = Hat.objects.all()
         return JsonResponse(
-            {"hat": hat},
+            {"hats": hats},
             encoder = HatListEncoder)
     else:
         content = json.loads(request.body)
