@@ -2,10 +2,11 @@ import React, { useEffect, useState} from 'react';
 
 function HatForm(props) {
     const [styleName, setStyleName] = useState('');
-    const [fabric, setFabric] = useState([]);
-    const[color, setcolor] = useState('');
+    const [fabric, setFabric] = useState('');
+    const[color, setColor] = useState('');
     const[picture, setPicture] = useState('');
     const[location, setLocation] = useState('');
+    const[locations, setLocations] = useState([]);
 
 
     const handleStyleNameChange = (event) => {
@@ -24,19 +25,9 @@ function HatForm(props) {
         setColor(value);
       }
 
-    const handleDescriptionChange = (event) => {
+    const handlePictureChange = (event) => {
         const value = event.target.value;
-        setDescription(value);
-      }
-
-    const handleMaxPresentationsChange = (event) => {
-        const value = event.target.value;
-        setMaxPresentations(value);
-      }
-
-    const handleMaxAttendeesChange = (event) => {
-        const value = event.target.value;
-        setMaxAttendees(value);
+        setPicture(value);
       }
 
       const handleLocationChange = (event) => {
@@ -48,17 +39,15 @@ function HatForm(props) {
         event.preventDefault();
         const data = {};
 
-        data.name = name;
-        data.starts = starts;
-        data.ends = ends;
-        data.description = description;
-        data.max_presentations = maxPresentations
-        data.max_attendees = maxAttendees;
+        data.style_name = styleName;
+        data.fabric = fabric;
+        data.color = color;
+        data.picture = picture;
         data.location = location;
 
         console.log(data);
 
-        const conferenceUrl = 'http://localhost:8000/api/conferences/'
+        const hatsUrl = 'http://localhost:8090/api/hats/'
         const fetchConfig = {
             method: "post",
             body: JSON.stringify(data),
@@ -66,24 +55,24 @@ function HatForm(props) {
                 'Content-Type': 'application/json',
             },
         };
-        const response = await fetch(conferenceUrl, fetchConfig);
+        const response = await fetch(hatsUrl, fetchConfig);
         if (response.ok) {
-            const newConference = await response.json();
-            console.log(newConference);
+            const newHat = await response.json();
+            console.log(newHat);
 
-            setName('');
-            setStarts('');
-            setEnds('');
+            setFabric('');
+            setStyle('');
+            setColor('');
             setDescription('');
-            setMaxPresentations('');
-            setMaxAttendees('');
+            setPicture('');
             setLocation('');
+
         }
     }
 
 
   const fetchData = async () => {
-    const url = 'http://localhost:8000/api/locations/';
+    const url = 'http://localhost:8100/api/locations/';
 
     const response = await fetch(url);
 
@@ -105,28 +94,20 @@ function HatForm(props) {
             <h1>Create a new Hat</h1>
             <form onSubmit={handleSubmit} id="create-conference-form">
               <div className="form-floating mb-3">
-                <input onChange= {handleStyleNameChange} value ={name} placeholder="Style Name" required type="text" name="Style Name" id ="Style Name" className="form-control"/>
-                <label htmlFor="name">Style Name</label>
+                <input onChange= {handleStyleNameChange} value ={styleName} placeholder="Style Name" required type="text" name="Style Name" id ="Style Name" className="form-control"/>
+                <label htmlFor="style name">Style Name</label>
               </div>
               <div className="form-floating mb-3">
-                <input onChange = {handleFabricChange} value={starts}placeholder="Starts" required type="date" name="starts" id="starts" className="form-control"/>
-                <label htmlFor="starts">Fabric</label>
+                <input onChange = {handleFabricChange} value={fabric}placeholder="Fabric" required type="text" name="fabric" id="fabric" className="form-control"/>
+                <label htmlFor="fabric">Fabric</label>
               </div>
               <div className="form-floating mb-3">
-                <input onChange ={handleEndsChange} value ={ends}placeholder="Ends" required type="date" name="ends" id="ends" className="form-control"/>
-                <label htmlFor="ends">Ends</label>
+                <input onChange ={handleColorChange} value ={ends}placeholder="Color" required type="text" name="color" id="color" className="form-control"/>
+                <label htmlFor="color">Color</label>
               </div>
               <div className="mb-3">
-                <label onChange = {handleDescriptionChange} value={description} htmlFor="description" className="form-label">Description</label>
-                <textarea className="form-control" required type="text" name="description" id="description" rows="3"></textarea>
-              </div>
-              <div className="form-floating mb-3">
-                <input onChange ={handleMaxPresentationsChange} value={maxPresentations}placeholder="max_presentations" required type="number" name="max_presentations" id="max_presentations" className="form-control"/>
-                <label htmlFor="max_presentations">Max Presentations</label>
-              </div>
-              <div className="form-floating mb-3">
-                <input onChange={handleMaxAttendeesChange} value={maxAttendees} placeholder="max_attendees" required type="number" name="max_attendees" id="max_attendees" className="form-control"/>
-                <label htmlFor="max_attendees">Max Attendees</label>
+                <label onChange = {handlePictureChange} value={picture} htmlFor="picture" className="form-label">Picture</label>
+                <textarea className="form-control" required type="url" name="picture" id="picture" rows="3"></textarea>
               </div>
               <div className="mb-3">
                 <select onChange={handleLocationChange} value={location} required id="location" name="location" className="form-select">
@@ -145,6 +126,7 @@ function HatForm(props) {
           </div>
         </div>
       </div>
+
   );
 
 }
