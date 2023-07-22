@@ -113,8 +113,8 @@ function HatForm(props) {
                   <option value="">Choose a location</option>
                   {locations.map(loc => {
                         return (
-                        <option key ={loc.id} value={loc.id}>
-                                {loc.name}
+                        <option key ={loc.href} value={loc.href}>
+                                {loc.closet_name}
                         </option>
                         );
                       })}
