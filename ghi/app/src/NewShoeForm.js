@@ -6,6 +6,7 @@ function NewShoeForm() {
   const [manufacturer, setManufacturer] = useState('');
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
+  const [picture_url, setPictureUrl] = useState('');
   const [bin, setBin] = useState('');
   const [bins, setBins] = useState([]);
   const [hasSignedUp, setHasSignedUp] = useState(false);
@@ -30,6 +31,7 @@ function NewShoeForm() {
     data.manufacturer = manufacturer;
     data.name = name;
     data.color = color;
+    data.picture_url = picture_url;
     data.bin = bin;
 
     const shoeUrl = 'http://localhost:8080/api/shoes/';
@@ -45,6 +47,7 @@ function NewShoeForm() {
         setManufacturer('');
         setName('');
         setColor('');
+        setPictureUrl('');
         setBin('');
         setHasSignedUp(true);
     }
@@ -65,6 +68,11 @@ function NewShoeForm() {
   const handleChangeColor = (event) => {
     const value = event.target.value;
     setColor(value);
+  }
+
+  const handleChangePictureURL = (event) => {
+    const value = event.target.value;
+    setPictureUrl(value);
   }
 
   const handleChangeBin = (event) => {
@@ -115,6 +123,14 @@ function NewShoeForm() {
                       <label htmlFor="color">color</label>
                     </div>
                   </div>
+                <div>
+                  <div className="col">
+                    <div className="form-floating mb-3">
+                      <input onChange={handleChangePictureURL} required placeholder="Picture URL" type="picture_url" id="picture_url" name="picture_url" className="form-control" />
+                      <label htmlFor="picture_url">picture url</label>
+                    </div>
+                  </div>
+                </div>
                   <p className="mb-3">
                   Please choose a bin
                 </p>
