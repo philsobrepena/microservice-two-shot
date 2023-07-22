@@ -59,7 +59,7 @@ useEffect(() => {
             <Route path="shoes/new" element={<NewShoeForm />} />
             <Route path="hats">
               <Route index element={<HatList hat={hat}/>} />
-              <Route path ="new" element={<HatForm location={location}/>} />
+              <Route path ="/hats/create" element={<HatForm location={location}/>} />
             </Route>
         </Routes>
       </div>
